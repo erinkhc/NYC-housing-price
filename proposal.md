@@ -18,8 +18,11 @@ Our dataset includes both categorical variables, which describe the type and loc
 ## Section 3: Research Questions We Are Exploring
 
 Persona:
+
 Name: Lucas
+
 Occupation: IT Project Manager
+
 Goals: To invest in a New York City property that matches his lifestyle preferences and fits within his budget, with a focus on tech-friendly neighborhoods.
 
 User Story:
