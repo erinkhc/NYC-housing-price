@@ -4,7 +4,7 @@ This dashboard provides users with a comprehensive overview of the New York real
 
 ## Render Link:
 
-![NYC_housing_price](https://ncy-housing-price.onrender.com/)
+[NYC_housing_price](https://ncy-housing-price.onrender.com/)
 
 ## Description
 
