@@ -2,6 +2,10 @@
 
 This dashboard provides users with a comprehensive overview of the New York real estate market, allowing them to browse property information through interactive maps and filtering features. The predictive tools and real estate agent rankings assist users in making informed purchasing decisions.
 
+## Render Link:
+
+![NYC_housing_price](https://ncy-housing-price.onrender.com/)
+
 ## Description
 
 The first page of this dashboard contains an interactive map with a filter. By clicking on the red icons on the map, users can view detailed property information like area, price, district, etc. And they can filter their desired house on the map by region, type, and price. In the lower half page, the left-side filter allows users to select the type of house they are interested in, which updates the boxplot to display the price distributions for each region of New York of the selected housing type. The pie chart illustrates the market shares of this housing type across different regions of New York.
