@@ -11,7 +11,7 @@ Filtering Options: Users can filter properties based on locality and type (house
 
 - Direct Area Selection via Map: 
 
-The dashboard integrate with a mapping service, likely Google Maps, which allows users to directly select and view properties in a specific area. This feature provides a user-friendly way to find properties by navigating the map, enhancing the search experience by visualizing the location context.
+    The dashboard integrate with a mapping service, likely Google Maps, which allows users to directly select and view properties in a specific area. This feature provides a user-friendly way to find properties by navigating the map, enhancing the search experience by visualizing the location context.
 
 - Price Range Selector: 
 
