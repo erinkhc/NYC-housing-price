@@ -16,10 +16,3 @@ The second page of the dashboard offers a window into each locality of New York.
 
 ![NYC sketch 2](https://github.com/erinkhc/NYC-housing-price/blob/main/sketch2.png)
 
-## Dash display
-
-![NYC_page1](https://github.com/erinkhc/NYC-housing-price/blob/main/page1.png)
-
-![NYC_page2](https://github.com/erinkhc/NYC-housing-price/blob/main/page2.png)
-
-
