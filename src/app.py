@@ -9,10 +9,31 @@ import altair as alt
 import dash_bootstrap_components as dbc
 import numpy as np
 import plotly.graph_objects as go
+import os
+
+
+
+# # path build
+# geojson_file = os.path.join(current_dir, 'NYC_Borough_Boundary.geojson')
+# csv_file = os.path.join(current_dir, 'NewYork_add_all.csv')
+#
+# # load data
+# nyc_boroughs = gpd.read_file(geojson_file)
+# joined_data = pd.read_csv(csv_file)
+
+# get current and parent dir
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# path build
+data_dir = os.path.join(parent_dir, 'data')
+geojson_file = os.path.join(data_dir, 'NYC_Borough_Boundary.geojson')
+csv_file = os.path.join(data_dir, 'NewYork_add_all.csv')
 
 # load data
-nyc_boroughs = gpd.read_file('NYC_Borough_Boundary.geojson')
-joined_data = pd.read_csv("NewYork_add_all.csv")
+nyc_boroughs = gpd.read_file(geojson_file)
+joined_data = pd.read_csv(csv_file)
+
 
 # mapbox API key
 mapbox_key = "pk.eyJ1IjoibWFudHVvbHVvYnVrdSIsImEiOiJjbHQ4OGJuaGowOXpuMmlvNHRxMjhwcjNwIn0.Ah-KdY3j7V0mm_86NfIJfg"
@@ -56,6 +77,9 @@ overall_broker = top_brokers_combined[top_brokers_combined["BoroName"]=="All"]
 
 # Initialize Dash app with Bootstrap CSS
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
+
+# Declare server for Heroku deployment. Needed for Procfile.
+server = app.server
 
 border_style = {
     'borderRadius': '5px',
