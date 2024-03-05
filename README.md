@@ -6,6 +6,14 @@ This dashboard provides users with a comprehensive overview of the New York real
 
 [NYC_housing_price](https://ncy-housing-price.onrender.com/)
 
+### Page 1 preview
+
+![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/Page1_Types.png)
+
+### Page 2 preview
+
+![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/Page1_Boroughs.png)
+
 ## Description
 
 The first page of this dashboard contains an interactive map with a filter. By clicking on the red icons on the map, users can view detailed property information like area, price, district, etc. And they can filter their desired house on the map by region, type, and price. In the lower half page, the left-side filter allows users to select the type of house they are interested in, which updates the boxplot to display the price distributions for each region of New York of the selected housing type. The pie chart illustrates the market shares of this housing type across different regions of New York.
