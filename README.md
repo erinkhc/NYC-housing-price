@@ -4,8 +4,9 @@ This dashboard provides users with a comprehensive overview of the New York real
 
 ## Dash App Link:
 
-Render Link: [NYC_housing_price](https://ncy-housing-price.onrender.com/)
-Heroku Link: [NYC](https://nyc-b429e9209531.herokuapp.com/)
+Render Link: [NYC_housing_price_render](https://ncy-housing-price.onrender.com/)
+
+Heroku Link: [NYC_housing_price_heroku](https://nyc-b429e9209531.herokuapp.com/)
 
 ### Page 1 preview
 
