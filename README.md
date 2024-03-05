@@ -2,9 +2,10 @@
 
 This dashboard provides users with a comprehensive overview of the New York real estate market, allowing them to browse property information through interactive maps and filtering features. The predictive tools and real estate agent rankings assist users in making informed purchasing decisions.
 
-## Render Link:
+## Dash App Link:
 
-[NYC_housing_price](https://ncy-housing-price.onrender.com/)
+Render Link: [NYC_housing_price](https://ncy-housing-price.onrender.com/)
+Heroku Link: [NYC](https://nyc-b429e9209531.herokuapp.com/)
 
 ### Page 1 preview
 
