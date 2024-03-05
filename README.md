@@ -12,7 +12,7 @@ This dashboard provides users with a comprehensive overview of the New York real
 
 ### Page 2 preview
 
-![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/Page1_Boroughs.png)
+![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/Page2_Boroughs.png)
 
 ## Description
 
