@@ -136,8 +136,9 @@ app.layout = dbc.Container(
                         ),
                         dbc.Tabs(
                             [
-                                dbc.Tab(label="By Types", tab_id="tab-1"),
-                                dbc.Tab(label="By Regions", tab_id="tab-2"),
+                                dbc.Tab(label="Map", tab_id="tab-1"),
+                                dbc.Tab(label="By Types", tab_id="tab-2"),
+                                dbc.Tab(label="By Regions", tab_id="tab-3"),
                             ],
                             id="tabs",
                             active_tab="tab-1",
@@ -225,27 +226,11 @@ def render_tab_content(active_tab):
                     ],
                     className="mb-4",
                 ),
-                dbc.Col(
-                    [
-                        html.Label("Select house type:"),
-                        dcc.Dropdown(
-                            id="type_viz_dropdown",
-                            options=[
-                                {"label": i, "value": i}
-                                for i in sorted(joined_data["TYPE_VIZ"].unique())
-                            ]
-                            + [{"label": "All", "value": "All"}],
-                            value="All",  # Default value
-                            placeholder="Select a type...",  # This sets the placeholder text
-                            clearable=False,
-                        ),
-                        html.Br(),
-                        html.Div(id="chart_container"),
-                    ]
-                ),
+                
+                
             ]
         )
-    elif active_tab == "tab-2":
+    elif active_tab == "tab-3":
         top_bar_content = "Region Section: Detailed Information"
         tab_content = dbc.Container(
             [
@@ -331,7 +316,31 @@ def render_tab_content(active_tab):
             fluid=True,
             style={"backgroundColor": "#f8f9fa", "height": "auto", "width": "auto"},
         )  # 'height': 'calc(100vh - 56px)'
-
+    elif active_tab == "tab-2":
+        top_bar_content = "Type Section"
+        tab_content = html.Div(
+            [
+               
+                dbc.Col(
+                    [
+                        html.Label("Select house type:"),
+                        dcc.Dropdown(
+                            id="type_viz_dropdown",
+                            options=[
+                                {"label": i, "value": i}
+                                for i in sorted(joined_data["TYPE_VIZ"].unique())
+                            ]
+                            + [{"label": "All", "value": "All"}],
+                            value="All",  # Default value
+                            placeholder="Select a type...",  # This sets the placeholder text
+                            clearable=False,
+                        ),
+                        html.Br(),
+                        html.Div(id="chart_container"),
+                    ]
+                ),
+            ]
+        )
     return tab_content, top_bar_content
 
 
