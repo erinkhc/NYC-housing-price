@@ -23,7 +23,10 @@ The filter in the upper right corner offers customized search functionality, all
 
 ![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/page_1_1.png)
 
-### Page 2 preview
+### Page 2 description and preview
+This Type page allows users to navigate the New York housing market by selecting specific types of properties to view detailed data on. Users can choose from several housing types using the dropdown menu, which includes options for all properties, condos,  houses, multi-family, townhouses, and other property types not categorized under the previous options. Once a selection is made, the page updates to show the price per square foot and the number of properties in each of the five boroughs of New York City: Bronx, Brooklyn, Manhattan, Queens, and Staten Island.
+
+The left side is the boxplot presents the price per square foot, with each borough indicated on the vertical axis and a range from $0 to $20,000 on the horizontal axis. Different colors represent individual properties.On the right, a pie chart presents the distribution of property counts across the regions, with each borough denoted by a unique color that matches the legend provided. This intuitive design offers potential buyers or renters a custom-tailored insight into market trends and property availability, based on their housing preferences.
 
 ![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/page_2.png)
 
