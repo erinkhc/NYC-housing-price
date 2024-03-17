@@ -1,0 +1,12 @@
+html body .vertical-tabs .nav-tabs {
+    flex-direction: column;
+}
+
+html body .vertical-tabs .nav-item {
+    width: 100%;
+}
+
+html body .vertical-tabs .nav-item .nav-link {
+    margin-right: 0;
+    text-align: left;
+}

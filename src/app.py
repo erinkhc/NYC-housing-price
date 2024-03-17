@@ -1,9 +1,13 @@
 import pandas as pd
+
+import requests
 import geopandas as gpd
 from shapely.geometry import Point
 import dash
 from dash import Dash, dcc, html
-from dash.dependencies import Input, Output
+
+from dash.dependencies import Input, Output, State
+from dash.exceptions import PreventUpdate
 import plotly.express as px
 import altair as alt
 import dash_bootstrap_components as dbc
@@ -36,6 +40,10 @@ joined_data = pd.read_csv(csv_file)
 
 # mapbox API key
 mapbox_key = "pk.eyJ1IjoibWFudHVvbHVvYnVrdSIsImEiOiJjbHQ4OGJuaGowOXpuMmlvNHRxMjhwcjNwIn0.Ah-KdY3j7V0mm_86NfIJfg"
+
+
+# google map API key
+google_maps_api_key = "AIzaSyAfJnHO3vlmdTQdGEGBEUZXojhrQFqVjW8"
 
 # calculate average price
 average_prices = joined_data.groupby("BoroName")["PRICE"].mean().reset_index()
@@ -142,6 +150,12 @@ app.layout = dbc.Container(
                             ],
                             id="tabs",
                             active_tab="tab-1",
+
+                            #vertical=True,
+                            #style={'width': '100%'}
+                            className="vertical-tabs"
+
+
                         ),
                     ],
                     width=2,
@@ -200,35 +214,56 @@ def render_tab_content(active_tab):
                     [
                         dbc.Col(
                             html.Div([dcc.Graph(id="map-graph", figure=fig)]),
-                            # width=8
-                            md=6,
-                            style={"marginLeft": "20px"},
-                            # , style={'border': '1px solid #d3d3d3', 'border-radius': '10px'}
+
+                            width=12, lg=8,
+                            style={'height': '150vh'}
                         ),
                         dbc.Col(
                             [
-                                html.Div(
+                                dbc.Row(
                                     [
-                                        html.Label("Select house locality:"),
-                                        filter_region,
-                                        html.Br(),
-                                        html.Label("Select house type:"),
-                                        filter_type,
-                                        html.Br(),
-                                        html.Label("Select price range:"),
-                                        dbc.Row(price_slider, style=price_slider_style),
-                                    ]
+                                        dbc.Col(
+                                            [
+                                                html.Label("Select house locality:"),
+                                                filter_region,
+                                            ],
+                                            style={'marginRight': '0px'},  # 调整间距
+                                            width=6,  # 设置为一半宽度
+                                        ),
+                                        dbc.Col(
+                                            [
+                                                html.Label("Select house type:"),
+                                                filter_type,
+                                            ],
+                                            style={'marginLeft': '0px'},  # 调整间距
+                                            width=6,  # 设置为一半宽度
+                                        ),
+                                    ],
+                                    className="d-flex flex-row justify-content-between",  # 设置为 flex 布局，并水平排列
                                 ),
+                                html.Div(style={'height': '15px'}),
+                                html.Label("Select price range:"),
+                                html.Div(style={'height': '10px'}),
+                                #dbc.Row(price_slider, style=price_slider_style),
+                                dbc.Row(
+                                    dbc.Col(price_slider, width=12),  # 设置 price_slider 占据整个水平空间
+                                ),
+                                html.Div(id='click-info', children=default_content),
+                                html.Button('close nearby information', id='clear-button', n_clicks=0,
+                                            style={'display': 'none'})
                             ],
-                            md=5,
-                            style={"marginLeft": "20px"},
-                        ),  # , md = 4, style = {'border': '1px solid #d3d3d3', 'border-radius': '10px'})
+                            width=12, lg=4,
+                            style={'height': 'auto', 'margin-left': '0px'},  # 向右对齐
+                        ),
+
                     ],
-                    className="mb-4",
+                    className="mb-4 g-0",
                 ),
                 
                 
-            ]
+            ],
+            style = {'margin': '20px'}
+
         )
     elif active_tab == "tab-3":
         top_bar_content = "Region Section: Detailed Information"
@@ -612,7 +647,9 @@ filter_region = dcc.Dropdown(
     placeholder="Select a locality...",
     # value=sub_locality[0],
     # clearable=False,
-    style={"width": "200px"},
+
+    #style={"width": "150px"},
+
 )
 
 # create type filter
@@ -623,7 +660,9 @@ filter_type = dcc.Dropdown(
     id="filter_typeviz",
     options=dropdown_options_type_viz,
     placeholder="Select a type...",
-    style={"width": "200px"},
+
+    #style={"width": "150px"},
+
 )
 
 price_slider = dcc.RangeSlider(
@@ -668,6 +707,274 @@ fig = go.Figure(
     )
 )
 
+
+# create google info layout
+
+default_content = html.Div([
+    html.H4('Please click map for more information.',
+            style={'fontSize': '22px', 'color': '#2D5FF1', 'fontWeight': 'bold', 'text-align': 'center', 'margin-top': '20px'}),
+    html.Img(src='/assets/NYC_label.png', style={'width': '60%', 'max-width': '400px', 'margin-top': '5px', 'display': 'block', 'margin-left': 'auto', 'margin-right': 'auto'})
+], style={'text-align': 'center'})
+
+
+
+def get_address(lat, lon):
+    matched_row = NewYork[(NewYork["LATITUDE"] == lat) & (NewYork["LONGITUDE"] == lon)]
+    if not matched_row.empty:
+        return matched_row.iloc[0]["MAIN_ADDRESS"]
+    else:
+        return "Address not found"
+def print_address(lat, lon):
+    address = get_address(lat, lon)
+    return html.Div([
+        html.Div([
+            html.Img(src='/assets/map_marker.png',
+                     style={'height': '25px', 'width': '25px', 'marginRight': '10px'}),
+            html.P(f'{address}', style={'margin': '0'})
+        ], style={'display': 'flex', 'alignItems': 'center'})
+    ], style={'padding': '10px'})
+
+
+@app.callback(
+    [Output('click-info', 'children'),
+     Output('clear-button', 'style')],
+    [Input('map-graph', 'clickData'),
+     Input('clear-button', 'n_clicks')],
+    prevent_initial_call=True
+)
+def display_click_data(clickData, clear_clicks):
+    ctx = dash.callback_context
+
+    if not ctx.triggered:
+        raise PreventUpdate
+
+    triggered_id = ctx.triggered[0]['prop_id'].split('.')[0]
+
+    if triggered_id == 'map-graph' and clickData is not None:
+        lat = clickData['points'][0]['lat']
+        lon = clickData['points'][0]['lon']
+
+        address_info = print_address(lat, lon)
+
+        hospital_results = query_nearest_hospital(lat, lon)
+        if hospital_results:
+            hospital_name = hospital_results[0]['name']
+            hospital_lat = hospital_results[0]['geometry']['location']['lat']
+            hospital_lon = hospital_results[0]['geometry']['location']['lng']
+            hospital_info = display_hospital_info(hospital_name, lat, lon, hospital_lat, hospital_lon)
+        else:
+            hospital_info = html.P('No hospitals found within 7km.')
+
+        lat,lon,park_name, park_lat, park_lon = query_nearest_park(lat, lon)
+        if park_name:
+            park_info = display_park_info(lat, lon)
+        else:
+            park_info = html.P('No parks found within 2km.')
+
+        lat,lon,shopping_center_name, shopping_center_lat, shopping_center_lon = query_nearest_shopping_center(lat, lon)
+        if shopping_center_name:
+            shopping_center_info = display_shopping_center_info(lat,lon)
+        else:
+            shopping_center_info = html.P('No shopping center found nearby.')
+
+        clear_button_style = {'display': 'block'}
+
+        return html.Div([
+            address_info,
+            hospital_info,
+            park_info,
+            shopping_center_info,
+        ], style={'padding': '1px'}), clear_button_style
+
+    elif triggered_id == 'clear-button':
+        return default_content, {'display': 'none'}
+
+    raise PreventUpdate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## nearby hostipal
+
+def query_nearest_hospital(lat, lon):
+    # Places API requests URL
+    places_url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+    places_params = {
+        'location': f'{lat},{lon}',
+        'radius': 7000,  # radius(m)
+        'type': 'hospital',
+        'key': google_maps_api_key
+    }
+
+    # Places API request
+    places_response = requests.get(places_url, params=places_params)
+    if places_response.status_code == 200:
+        hospital_results = places_response.json()['results']
+        return hospital_results
+
+def display_hospital_info(hospital_name, lat, lon, hospital_lat, hospital_lon):
+    # Directions API URL
+    directions_url = "https://maps.googleapis.com/maps/api/directions/json"
+    directions_params = {
+        'origin': f'{lat},{lon}',
+        'destination': f'{hospital_lat},{hospital_lon}',
+        'mode': 'driving',
+        'key': google_maps_api_key
+    }
+
+    # Directions API request
+    directions_response = requests.get(directions_url, params=directions_params)
+    if directions_response.status_code == 200:
+        directions_results = directions_response.json()['routes'][0]['legs'][0]
+        distance = directions_results['distance']['text']
+        duration = directions_results['duration']['text']
+
+        return html.Div([
+            html.Div([
+                html.Img(src='/assets/hospital_label.png',
+                         style={'height': '25px', 'width': '25px', 'marginRight': '10px'}),
+                html.P(f'{hospital_name}', style={'margin': '0'})
+            ], style={'display': 'flex', 'alignItems': 'center'}),
+            html.P(f'Driving: {distance}, {duration}',style={'font-size': '14px'})
+        ], style={'padding': '10px'})
+
+    else:
+        return f'Failed to retrieve data from Google Directions API. Status code: {directions_response.status_code}'
+
+## display nearby park
+
+def query_nearest_park(lat, lon):
+    # Places API URL
+    places_url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+    places_params = {
+        'location': f'{lat},{lon}',
+        'radius': 2000,
+        'type': 'park|square',
+        'keyword': 'community garden | playground',
+        'key': google_maps_api_key
+    }
+
+    places_response = requests.get(places_url, params=places_params)
+    if places_response.status_code == 200:
+        park_results = places_response.json()['results']
+        if park_results:
+            first_park = park_results[0]
+            park_name = first_park['name']
+            park_lat = first_park['geometry']['location']['lat']
+            park_lon = first_park['geometry']['location']['lng']
+            return lat, lon, park_name, park_lat, park_lon
+    return None, None, None
+
+def display_park_info(lat, lon):
+    lat,lon, park_name, park_lat, park_lon = query_nearest_park(lat, lon)
+    if park_name:
+        # Directions API URL
+        directions_url = "https://maps.googleapis.com/maps/api/directions/json"
+        directions_params = {
+            'origin': f'{lat},{lon}',
+            'destination': f'{park_lat},{park_lon}',
+            'mode': 'walking',
+            'key': google_maps_api_key
+        }
+
+
+        directions_response = requests.get(directions_url, params=directions_params)
+        if directions_response.status_code == 200:
+            directions_results = directions_response.json()['routes'][0]['legs'][0]
+            distance = directions_results['distance']['text']
+            duration = directions_results['duration']['text']
+
+            return html.Div([
+                html.Div([
+                    html.Img(src='/assets/parks_label.png',
+                             style={'height': '25px', 'width': '25px', 'marginRight': '10px'}),
+                    html.P(f'{park_name}', style={'margin': '0'})
+                ], style={'display': 'flex', 'alignItems': 'center'}),
+                html.P(f'Walking: {distance}, {duration}',style={'font-size': '14px'}),
+            ], style={'padding': '10px'})
+
+        else:
+            return f'Failed to retrieve data from Google Directions API. Status code: {directions_response.status_code}'
+    else:
+        return 'No nearby park found.'
+
+
+def query_nearest_shopping_center(lat, lon):
+
+    places_url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+    places_params = {
+        'location': f'{lat},{lon}',
+        'radius': 5000,
+        'type': 'shopping_mall',
+        'key': google_maps_api_key
+    }
+
+    places_response = requests.get(places_url, params=places_params)
+    if places_response.status_code == 200:
+        shopping_center_results = places_response.json()['results']
+        if shopping_center_results:
+            first_shopping_center = shopping_center_results[0]
+            #print(first_shopping_center)
+            shopping_center_name = first_shopping_center['name']
+            shopping_center_lat = first_shopping_center['geometry']['location']['lat']
+            shopping_center_lon = first_shopping_center['geometry']['location']['lng']
+            return lat,lon,shopping_center_name, shopping_center_lat, shopping_center_lon
+    return None, None, None
+
+def display_shopping_center_info(lat, lon):
+    lat,lon,shopping_center_name, shopping_center_lat, shopping_center_lon = query_nearest_shopping_center(lat, lon)
+
+    if shopping_center_name:
+        # Directions API URL
+        directions_url = "https://maps.googleapis.com/maps/api/directions/json"
+        directions_params = {
+            'origin': f'{lat},{lon}',
+            'destination': f'{shopping_center_lat},{shopping_center_lon}',
+            'mode': 'driving',
+            'key': google_maps_api_key
+        }
+
+        directions_response = requests.get(directions_url, params=directions_params)
+        if directions_response.status_code == 200:
+            directions_results = directions_response.json()['routes'][0]['legs'][0]
+            distance = directions_results['distance']['text']
+            duration = directions_results['duration']['text']
+
+            return html.Div([
+                html.Div([
+                    html.Img(src='/assets/shopping_center_label.jpg',
+                             style={'height': '25px', 'width': '25px', 'marginRight': '10px'}),
+                    html.P(f'{shopping_center_name}', style={'margin': '0'})
+                ], style={'display': 'flex', 'alignItems': 'center'}),
+                html.P(f'Driving: {distance}, {duration}',style={'font-size': '14px'}),
+            ], style={'padding': '10px'})
+
+        else:
+            return f'Failed to retrieve data from Google Directions API. Status code: {directions_response.status_code}'
+    else:
+        return 'No nearby shopping center found.'
+
+
+
+
+
+
+
+
+
+
+
 # inialize map
 fig.update_layout(
     mapbox=dict(
@@ -677,8 +984,7 @@ fig.update_layout(
         center=dict(lat=NewYork["LATITUDE"].mean(), lon=NewYork["LONGITUDE"].mean()),
     ),
     margin={"r": 0, "t": 0, "l": 0, "b": 0},
-    width=600,
-    height=350,
+
 )
 
 
@@ -744,8 +1050,7 @@ def update_map(selected_sublocality, selected_type, price_range):
             ),
         ),
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
-        width=600,
-        height=350,
+
     )
     return fig
 
