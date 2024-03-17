@@ -10,6 +10,20 @@ Heroku Link: [NYC_housing_price_heroku](https://nyc-b429e9209531.herokuapp.com/)
 
 ### Page 1 preview
 
+This Dash application page is designed for investors looking to enter the New York real estate market and individuals hoping to settle in New York, offering users a comprehensive analysis of the New York housing market. Its core value lies in enabling users to better understand property values and their distribution through intuitive data visualization.
+
+The navigation bar on the left side of the page is the starting point for users, serving as a quick guide through the Dash, allowing users to access housing price information based on different data views (maps, types, areas), thus exploring the market from multiple dimensions.
+
+The interactive map in the center displays the geographical distribution of properties, cleverly conveying information about property prices and sizes through the color and size of the dots. The gradient of colours from light to dark maps the price range from low to high, while the size of the dots is directly linked to the actual area of the properties, providing a seamless interpretation experience for users.
+
+When users hover their mouse over a point on the map, it displays detailed data for each property, such as address, area, pricing, and the specific layout of the house. These instantly displayed data points ensure that users have sufficient information when making decisions.
+
+After a point on the map is clicked, the lower right area of the page will display richer information, such as key infrastructure near the property. This includes medical institutions, leisure parks, and shopping centers, which are crucial for assessing the convenience of living near the property.
+
+Furthermore, the filter in the upper right corner offers customized search functionality, allowing users to narrow down their search based on specific locations, house types, and price ranges, making the process of finding the ideal property more direct and personalized.
+
+The first page aims to provide an information-rich and easy-to-use platform through integrated data views and user-friendly interaction, enabling users to make informed choices in the complex New York real estate market.
+
 ![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/page_1_0.png)
 
 ![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/page_1_1.png)
