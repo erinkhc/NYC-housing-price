@@ -27,11 +27,21 @@ The filter in the upper right corner offers customized search functionality, all
 
 ![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/page_2.png)
 
-### Page 3 preview
+### Page 3 description and preview
+
+To use this web application for exploring real estate in New York City, users would start by selecting one of the boroughs from the map in the upper left-hand side. After a borough is selected, the following should happen:
+
+1. Update of the Bubble Chart: The bubble chart in the upper right-hand side will update to display the distribution of property types within the selected borough. Each bubble represents a different type of property (such as Co-op, Condo, House, Multi-family, Townhouse, and others) and shows the quantity of available properties as well as the average rate for that property type.
+
+2. Update of the Broker Chart: Concurrently, the bar chart in the lower right-hand side will update to show the top 5 real estate brokers in the selected borough. This chart lists brokers by name and shows a count of their transaction volume.
+
+3. Using the Filters: On the lower left-hand side, users can use filters to select the desired number of bedrooms and bathrooms for a property. Once these filters are applied, the application will display the lowest and highest price range for the properties that meet the selected criteria.
+
+By default, the application displays data for all properties across all boroughs. As users interact with the map and filters, the application dynamically updates the charts and data displayed to match their selections, providing a tailored view of the real estate market based on their preferences.
 
 ![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/page_3.png)
 
-## Description
+## Sketch Description
 
 The first page of this dashboard contains an interactive map with a filter. By clicking on the red icons on the map, users can view detailed property information like area, price, district, etc. And they can filter their desired house on the map by region, type, and price. In the lower half page, the left-side filter allows users to select the type of house they are interested in, which updates the boxplot to display the price distributions for each region of New York of the selected housing type. The pie chart illustrates the market shares of this housing type across different regions of New York.
 
