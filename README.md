@@ -12,7 +12,7 @@ This Dash application page is designed for investors looking to enter the New Yo
 
 ### Page 1 description and preview 
 
-The navigation bar on the left side of the page is the starting point for users, serving as a quick guide through the Dash, allowing users to access housing price information based on different data views (maps, types, areas), thus exploring the market from multiple dimensions.
+The navigation bar on the left side of the page serves as the quick navigation tool for the entire Dash application, acting as the starting point for users. It allows users to access housing price information based on different data views (maps, types, areas), thus exploring the market from multiple dimensions.
 
 The interactive map in the center displays the geographical distribution of properties, cleverly conveying information about property prices and sizes through the color and size of the dots. The gradient of colours from light to dark maps the price range from low to high, while the size of the dots is directly linked to the actual area of the properties, providing a seamless interpretation experience for users.
 
