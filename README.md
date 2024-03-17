@@ -6,13 +6,21 @@ This dashboard provides users with a comprehensive overview of the New York real
 
 Heroku Link: [NYC_housing_price_heroku](https://nyc-b429e9209531.herokuapp.com/)
 
+## Dash App Preview
+
 ### Page 1 preview
 
-![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/Page1_Types.png)
+![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/page_1_0.png)
+
+![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/page_1_1.png)
 
 ### Page 2 preview
 
-![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/Page2_Boroughs.png)
+![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/page_2.png)
+
+### Page 3 preview
+
+![NYC sketch 1](https://github.com/erinkhc/NYC-housing-price/blob/main/page_3.png)
 
 ## Description
 
