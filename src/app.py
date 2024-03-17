@@ -1,9 +1,11 @@
 import pandas as pd
+
 import requests
 import geopandas as gpd
 from shapely.geometry import Point
 import dash
 from dash import Dash, dcc, html
+
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 import plotly.express as px
@@ -38,6 +40,7 @@ joined_data = pd.read_csv(csv_file)
 
 # mapbox API key
 mapbox_key = "pk.eyJ1IjoibWFudHVvbHVvYnVrdSIsImEiOiJjbHQ4OGJuaGowOXpuMmlvNHRxMjhwcjNwIn0.Ah-KdY3j7V0mm_86NfIJfg"
+
 
 # google map API key
 google_maps_api_key = "AIzaSyAfJnHO3vlmdTQdGEGBEUZXojhrQFqVjW8"
@@ -147,9 +150,11 @@ app.layout = dbc.Container(
                             ],
                             id="tabs",
                             active_tab="tab-1",
+
                             #vertical=True,
                             #style={'width': '100%'}
                             className="vertical-tabs"
+
 
                         ),
                     ],
@@ -209,6 +214,7 @@ def render_tab_content(active_tab):
                     [
                         dbc.Col(
                             html.Div([dcc.Graph(id="map-graph", figure=fig)]),
+
                             width=12, lg=8,
                             style={'height': '150vh'}
                         ),
@@ -257,6 +263,7 @@ def render_tab_content(active_tab):
                 
             ],
             style = {'margin': '20px'}
+
         )
     elif active_tab == "tab-3":
         top_bar_content = "Region Section: Detailed Information"
@@ -640,7 +647,9 @@ filter_region = dcc.Dropdown(
     placeholder="Select a locality...",
     # value=sub_locality[0],
     # clearable=False,
+
     #style={"width": "150px"},
+
 )
 
 # create type filter
@@ -651,7 +660,9 @@ filter_type = dcc.Dropdown(
     id="filter_typeviz",
     options=dropdown_options_type_viz,
     placeholder="Select a type...",
+
     #style={"width": "150px"},
+
 )
 
 price_slider = dcc.RangeSlider(
@@ -695,6 +706,7 @@ fig = go.Figure(
         hoverinfo="text",
     )
 )
+
 
 # create google info layout
 
@@ -962,6 +974,7 @@ def display_shopping_center_info(lat, lon):
 
 
 
+
 # inialize map
 fig.update_layout(
     mapbox=dict(
@@ -971,6 +984,7 @@ fig.update_layout(
         center=dict(lat=NewYork["LATITUDE"].mean(), lon=NewYork["LONGITUDE"].mean()),
     ),
     margin={"r": 0, "t": 0, "l": 0, "b": 0},
+
 )
 
 
@@ -1036,6 +1050,7 @@ def update_map(selected_sublocality, selected_type, price_range):
             ),
         ),
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
+
     )
     return fig
 
