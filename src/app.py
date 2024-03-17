@@ -216,7 +216,10 @@ def render_tab_content(active_tab):
                             html.Div([dcc.Graph(id="map-graph", figure=fig)]),
 
                             width=12, lg=8,
-                            style={'height': '150vh'}
+                            #style={'height': '150vh'},
+                            #style={'height': '5000px'}
+
+
                         ),
                         dbc.Col(
                             [
@@ -224,36 +227,63 @@ def render_tab_content(active_tab):
                                     [
                                         dbc.Col(
                                             [
-                                                html.Label("Select house locality:"),
+                                                html.Label("Select house locality:",
+                                                           style={'font-size': '18px',
+                                                                  'font-weight': 'bold',
+                                                                  'color': '#2D5FF1',
+                                                                  'margin-left': '5px',
+                                                                  'margin-bottom': '10px'}),
                                                 filter_region,
                                             ],
-                                            style={'marginRight': '0px'},  # 调整间距
-                                            width=6,  # 设置为一半宽度
+                                            style={'marginRight': '0px'},
+                                            width=6,  # half width
                                         ),
                                         dbc.Col(
                                             [
-                                                html.Label("Select house type:"),
+                                                html.Label("Select house type:",
+                                                           style={'font-size': '18px',
+                                                                  'font-weight': 'bold',
+                                                                  'color': '#2D5FF1',
+                                                                  'margin-left': '5px',
+                                                                  'margin-bottom': '10px'}),
                                                 filter_type,
                                             ],
-                                            style={'marginLeft': '0px'},  # 调整间距
-                                            width=6,  # 设置为一半宽度
+                                            style={'marginLeft': '0px'},
+                                            width=6,  # half width
                                         ),
                                     ],
-                                    className="d-flex flex-row justify-content-between",  # 设置为 flex 布局，并水平排列
+                                    className="d-flex flex-row justify-content-between",  #horizontal flex
+                                    style={'margin-top': '20px'},
                                 ),
+
+
+
+
                                 html.Div(style={'height': '15px'}),
-                                html.Label("Select price range:"),
-                                html.Div(style={'height': '10px'}),
+                                #html.Label("Select price range:"),
+                                html.Label("Select price range:",
+                                           style={'font-size': '18px',
+                                                  'font-weight': 'bold',
+                                                  'color': '#2D5FF1',
+                                                  'margin-left': '10px'}),
+                                html.Div(style={'height': '15px'}),
                                 #dbc.Row(price_slider, style=price_slider_style),
                                 dbc.Row(
-                                    dbc.Col(price_slider, width=12),  # 设置 price_slider 占据整个水平空间
+                                    dbc.Col(price_slider, width=12),
                                 ),
+                                html.Div(style={'height': '15px'}),
+
                                 html.Div(id='click-info', children=default_content),
-                                html.Button('close nearby information', id='clear-button', n_clicks=0,
-                                            style={'display': 'none'})
+
+
+                                html.Button('Close Nearby Information', id='clear-button', n_clicks=0,
+                                            className='btn btn-primary btn-sm',
+                                            style={'display': 'none'}
+                                            )
+
                             ],
                             width=12, lg=4,
-                            style={'height': 'auto', 'margin-left': '0px'},  # 向右对齐
+                            style={'height': 'auto', 'margin-left': '0px'},
                         ),
 
                     ],
@@ -343,7 +373,7 @@ def render_tab_content(active_tab):
                             ),
                             md=6,
                         ),
-                        # 将 broker-histogram 放回右侧
+                        # put broker-histogram at right side
                     ],
                     align="end",
                 ),
@@ -711,7 +741,7 @@ fig = go.Figure(
 # create google info layout
 
 default_content = html.Div([
-    html.H4('Please click map for more information.',
+    html.H4('Please click map for more nearby information.',
             style={'fontSize': '22px', 'color': '#2D5FF1', 'fontWeight': 'bold', 'text-align': 'center', 'margin-top': '20px'}),
     html.Img(src='/assets/NYC_label.png', style={'width': '60%', 'max-width': '400px', 'margin-top': '5px', 'display': 'block', 'margin-left': 'auto', 'margin-right': 'auto'})
 ], style={'text-align': 'center'})
@@ -780,11 +810,20 @@ def display_click_data(clickData, clear_clicks):
         clear_button_style = {'display': 'block'}
 
         return html.Div([
-            address_info,
-            hospital_info,
-            park_info,
-            shopping_center_info,
-        ], style={'padding': '1px'}), clear_button_style
+            html.Div(address_info, style={'margin-left': '25px', 'margin-top': '5px', 'margin-bottom': '5px','margin-right': '25px'}),
+            html.Div(hospital_info, style={'margin-left': '25px', 'margin-top': '5px', 'margin-bottom': '5px','margin-right': '25px'}),
+            html.Div(park_info, style={'margin-left': '25px', 'margin-top': '5px', 'margin-bottom': '5px','margin-right': '25px'}),
+            html.Div(shopping_center_info, style={'margin-left': '25px', 'margin-top': '5px', 'margin-bottom': '5px','margin-right': '25px'}),
+        ], style={
+            'padding': '5px',
+            'background-color': '#f7f8f9',
+            'border-radius': '20px',
+            'display': 'inline-block',
+            'vertical-align': 'top'
+        }), clear_button_style
+
+
+
 
     elif triggered_id == 'clear-button':
         return default_content, {'display': 'none'}
@@ -874,7 +913,7 @@ def query_nearest_park(lat, lon):
             park_lat = first_park['geometry']['location']['lat']
             park_lon = first_park['geometry']['location']['lng']
             return lat, lon, park_name, park_lat, park_lon
-    return None, None, None
+    return None, None, None, None, None
 
 def display_park_info(lat, lon):
     lat,lon, park_name, park_lat, park_lon = query_nearest_park(lat, lon)
@@ -930,7 +969,7 @@ def query_nearest_shopping_center(lat, lon):
             shopping_center_lat = first_shopping_center['geometry']['location']['lat']
             shopping_center_lon = first_shopping_center['geometry']['location']['lng']
             return lat,lon,shopping_center_name, shopping_center_lat, shopping_center_lon
-    return None, None, None
+    return None, None, None,None,None
 
 def display_shopping_center_info(lat, lon):
     lat,lon,shopping_center_name, shopping_center_lat, shopping_center_lon = query_nearest_shopping_center(lat, lon)
@@ -980,10 +1019,13 @@ fig.update_layout(
     mapbox=dict(
         accesstoken=mapbox_access_token,
         style="light",
-        zoom=10,
+        zoom=9.5,
+        #zoom = 10,
         center=dict(lat=NewYork["LATITUDE"].mean(), lon=NewYork["LONGITUDE"].mean()),
     ),
     margin={"r": 0, "t": 0, "l": 0, "b": 0},
+
+    height = 550
 
 )
 
@@ -1043,13 +1085,16 @@ def update_map(selected_sublocality, selected_type, price_range):
         mapbox=dict(
             accesstoken=mapbox_access_token,
             style="light",
-            zoom=10,
+            zoom=9.5,
+            #zoom = 10
             center=dict(
                 lat=filtered_data["LATITUDE"].mean(),
                 lon=filtered_data["LONGITUDE"].mean(),
             ),
         ),
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
+
+        height = 550
 
     )
     return fig
