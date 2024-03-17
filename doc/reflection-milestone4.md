@@ -1,0 +1,11 @@
+## Reflection for milestone4
+
+Throughout the development of the New York Housing Market application, the feedback we received from users has been integral to our improvements and feature enhancements. One of the primary issues highlighted was the map's limited size, which we have now expanded for a more engaging and informative user experience. Users can explore New York's neighborhoods with greater ease and detail, thanks to this adjustment.
+
+Moreover, we addressed concerns regarding the boxplot visualization of housing prices. Users found it difficult to interpret due to outliers, which led us to refine the presentation of this data. The result is a clearer view that directs attention to the median pricing trends rather than exceptional cases. Furthermore, we have moved this visualization part to a separate page dedicated to detailed statistical analysis, thus increasing its visibility and making the data more digestible for users.
+
+In the regions section, we've implemented the much-requested feature of filtering by the number of bedrooms and bathrooms, including an "any" option for both. This flexibility allows users to tailor their searches more precisely, catering to a variety of housing requirements and preferences.
+
+While initially, incorporating public infrastructure data such as hospitals, parks posed a challenge, we have innovatively circumvented this obstacle. Now, by clicking on a property within the map, users can access information about nearby hospitals, parks, shopping centers, and their proximity to the selected property. This feature enriches the user's understanding of the neighborhood context and amenities, adding significant value to the decision-making process when considering housing options.
+
+The iterative feedback process has not only shaped the app's current functionalities but has also kept us aligned with our users' needs and expectations. While we have succeeded in enhancing the app's user-friendliness and depth of information, we recognize the journey does not end here. The continued pursuit of comprehensive local infrastructure data highlights our commitment to evolving the app further, ensuring it becomes an indispensable resource for anyone interested in the New York housing market.
